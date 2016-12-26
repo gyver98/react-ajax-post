@@ -41,6 +41,15 @@ class PostContainer extends React.Component {
         });
     }
 
+    handleNavigateClick = (type) => {
+        const postId = this.state.postId;
+        if (type === 'NEXT') {
+            this.fetchPostInfo(postId + 1);
+        } else {
+            this.fetchPostInfo(postId - 1);
+        }
+    }
+
     componentDidMount() {
         this.fetchPostInfo(1);
     }
@@ -53,6 +62,7 @@ class PostContainer extends React.Component {
                 <Navigate
                     postId={postId}
                     disabled={fetching}
+                    onClick={this.handleNavigateClick}
                 />
                 <Post
                     title={post.title}
