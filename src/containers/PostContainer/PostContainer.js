@@ -22,23 +22,30 @@ class PostContainer extends React.Component {
         this.setState({
             fetching: true
         });
-        
-        //Promise.all style - wait for two promises
-        const info = await Promise.all([
-            service.getPost(postId),
-            service.getComments(postId)
-        ]);
-        
-        // ES6 Object destructuring syntax : takes required values and create references to them
-        const {title, body} = info[0].data;
-        const comments = info[1].data;
+        try {
+            //Promise.all style - wait for two promises
+            const info = await Promise.all([
+                service.getPost(postId),
+                service.getComments(postId)
+            ]);
+            
+            // ES6 Object destructuring syntax : takes required values and create references to them
+            const {title, body} = info[0].data;
+            const comments = info[1].data;
 
-        this.setState({
-            postId,
-            post: { title, body},
-            comments,
-            fetching: false
-        });
+            this.setState({
+                postId,
+                post: { title, body},
+                comments,
+                fetching: false
+            });
+        } catch(e) {
+            this.setState({
+                fetching: false
+            });
+            console.log('error occurred', e);
+        }
+        
     }
 
     handleNavigateClick = (type) => {
