@@ -1,5 +1,5 @@
 import React from 'react';
-import { PostWrapper, Navigate, Post } from '../../components';
+import { PostWrapper, Navigate, Post, Warning } from '../../components';
 import * as service from '../../services/post';
 
 class PostContainer extends React.Component {
@@ -13,10 +13,25 @@ class PostContainer extends React.Component {
                 title: null,
                 body: null
             },
-            comments: []
+            comments: [],
+            warningVisibility: false
         };
     }
     
+    showWarning = () => {
+      this.setState({
+        warningVisibility: true
+      });
+
+      setTimeout(
+        () => {
+          this.setState({
+            warningVisibility: false
+          });
+        }, 1500
+      );
+    }
+
     fetchPostInfo = async (postId) => {
         
         this.setState({
@@ -43,7 +58,7 @@ class PostContainer extends React.Component {
             this.setState({
                 fetching: false
             });
-            console.log('error occurred', e);
+            this.showWarning();
         }
         
     }
@@ -62,7 +77,7 @@ class PostContainer extends React.Component {
     }
     
     render() {
-        const {postId, fetching, post, comments} = this.state;
+        const {postId, fetching, post, comments, warningVisibility} = this.state;
 
         return (
             <PostWrapper>
@@ -76,6 +91,7 @@ class PostContainer extends React.Component {
                     body={post.body}
                     comments={comments}
                 />
+                <Warning visible={warningVisibility} message="That post does not exist"/>
             </PostWrapper>
         );
     }
