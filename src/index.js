@@ -6,7 +6,7 @@ import './index.css';
 import './Animation.css';
 import Promise from 'promise-polyfill';
 
-// To add to old window 
+// To add to old window ...
 if (!window.Promise) {
   window.Promise = Promise;
 }
