@@ -18,6 +18,20 @@ class PostContainer extends React.Component {
         };
     }
     
+    showWarning = () => {
+      this.setState({
+        warningVisibility: true
+      });
+
+      setTimeout(
+        () => {
+          this.setState({
+            warningVisibility: false
+          });
+        }, 1500
+      );
+    }
+
     fetchPostInfo = async (postId) => {
         
         this.setState({
@@ -44,7 +58,7 @@ class PostContainer extends React.Component {
             this.setState({
                 fetching: false
             });
-            console.log('error occurred', e);
+            this.showWarning();
         }
         
     }
@@ -63,7 +77,7 @@ class PostContainer extends React.Component {
     }
     
     render() {
-        const {postId, fetching, post, comments} = this.state;
+        const {postId, fetching, post, comments, warningVisibility} = this.state;
 
         return (
             <PostWrapper>
@@ -73,11 +87,12 @@ class PostContainer extends React.Component {
                     onClick={this.handleNavigateClick}
                 />
                 <Post
+                    postId={postId}
                     title={post.title}
                     body={post.body}
                     comments={comments}
                 />
-                <Warning message="not exist"/>
+                <Warning visible={warningVisibility} message="That post does not exist"/>
             </PostWrapper>
         );
     }
